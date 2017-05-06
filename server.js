@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const requestProxy = require('express-request-proxy'); // REVIEW: We've added a new package here to our requirements, as well as in the package.json
 const PORT = process.env.PORT || 3000;
 const app = express();
-const conString = process.env.DATABASE||'postgres://nurbekismailov@localhost5432/lab11';
+const conString = process.env.DATABASE_URL || 'postgres:nurbekismailov@localhost5432/lab11';
 const client = new pg.Client(conString);
 client.connect();
 client.on('error', err => console.error(err));
@@ -20,8 +20,8 @@ app.use(express.static('./public'));
 function proxyGitHub(request, response) {
   console.log('Routing GitHub request for', request.params[0]);
   (requestProxy({
-    url: `https://github.com/nurbek82/repos${process.env.GITHUB_TOKEN}`,
-    // headers: {Authorization: `token ${process.env.GITHUB_TOKEN}`}
+    url: `https://api.github.com/${request.params[0]}`,
+    headers: {Authorization: `token ${process.env.GITHUB_TOKEN}`}
   }))(request, response);
 }
 
