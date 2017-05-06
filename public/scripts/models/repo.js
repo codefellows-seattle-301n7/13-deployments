@@ -12,7 +12,6 @@
     //       new environment variable!
 
     $.get('/github/user/repos')
-
     .then(data => repos.all = data, err => console.error(err)) // es6 syntax arrow functions
     .then(callback);
   };
